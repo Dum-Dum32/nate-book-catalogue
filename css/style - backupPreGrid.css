@@ -1,0 +1,128 @@
+/* style.css */
+
+/* The 'body' is the whole page. We make it clean and readable. */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0; /* Gets rid of the browser's default blank space */
+    padding: 0;
+    background-color: #f4f4f9; /* Light grey background */
+    color: #333; /* Dark text */
+}
+
+/* The 'header' is the top section with the main title. */
+header {
+    background-color: #2c3e50; /* Dark blue background */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* A small shadow effect */
+}
+
+/* The 'main' container where the books will go. */
+main {
+    padding: 20px;
+    max-width: 800px; /* Makes sure the page doesn't get too wide on a big screen */
+    margin: 20px auto; /* Centers the container */
+}
+
+/* The 'footer' is the bottom section. */
+footer {
+    text-align: center;
+    padding: 10px;
+    color: #777;
+    font-size: 0.8em;
+    border-top: 1px solid #ddd;
+}
+
+/* This is a simple rule to make sure the title looks good on a phone. */
+h1 {
+    font-size: 1.8em; /* 1.8 times the normal font size */
+    margin: 0;
+}
+
+/* The card that holds each book's details */
+.book-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px; /* Slightly rounded corners */
+    margin-bottom: 15px; /* Space between each book card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* A subtle shadow */
+    border-left: 5px solid #3498db; /* A blue line on the left for a nice touch */
+}
+
+/* Style for the book title */
+.book-card h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+}
+
+/* We added a special class for the 'Status' to make it stand out */
+.status-read {
+    color: green;
+    font-weight: bold;
+}
+
+.status-unread {
+    color: #e74c3c; /* A nice red color */
+    font-weight: bold;
+}
+
+
+
+/* Style for the Search bar */
+#search-area {
+    text-align: center;
+    padding: 20px;
+    background-color: #ecf0f1;
+    display: flex; /* This helps align the input and button side-by-side */
+    justify-content: center;
+    gap: 10px; /* Puts a little space between the box and the button */
+}
+
+#search-input {
+    padding: 10px;
+    width: 60%; /* Takes up most of the space on the screen */
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; /* Makes the mouse turn into a hand icon */
+}
+
+#search-button:hover {
+    background-color: #2980b9; /* Makes the button turn darker when you hover over it */
+}
+
+#reset-button {
+    padding: 10px 20px;
+    background-color: #95a5a6; /* A grey color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: #7f8c8d;
+}
+
+
+/* No Books found on search message */
+.no-results {
+    text-align: center;
+    font-size: 1.2em;
+    color: #e74c3c; /* Red color to show it's an error/empty state */
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+}

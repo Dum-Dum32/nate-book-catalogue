@@ -1,0 +1,117 @@
+/* style.css - Module 3.1 Grid Update */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* SEARCH AREA - Made flexible */
+#search-area {
+    text-align: center;
+    padding: 20px;
+    background-color: #ecf0f1;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Allows buttons to drop down on small screens */
+}
+
+#search-input {
+    padding: 10px;
+    width: 60%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-button, #reset-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+}
+
+#search-button { background-color: #3498db; }
+#search-button:hover { background-color: #2980b9; }
+
+#reset-button { background-color: #95a5a6; }
+#reset-button:hover { background-color: #7f8c8d; }
+
+/* MAIN GRID CONTAINER */
+main {
+    padding: 20px;
+    max-width: 1200px; /* Wider to fit more books */
+    margin: 0 auto;
+    
+    /* The Magic Grid Code */
+    display: grid;
+    /* "Auto-fit" columns that are at least 300px wide */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px; /* Space between cards */
+}
+
+/* BOOK CARD STYLES */
+.book-card {
+    /* Existing styles... */
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #3498db;
+    display: flex;
+    flex-direction: column;
+
+    /* NEW STYLES FOR BACKGROUND IMAGE */
+    background-size: cover;      /* Stretch image to fill the card */
+    background-position: center; /* Focus on the center of the image */
+    background-repeat: no-repeat;
+}
+
+.book-card h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 5px;
+    min-height: 2.5em; /* Keeps card heights consistent */
+}
+
+/* NEW: Style for the description */
+.book-blurb {
+    font-style: italic;
+    color: #555;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.status-read { color: green; font-weight: bold; }
+.status-unread { color: #e74c3c; font-weight: bold; }
+
+.no-results {
+    grid-column: 1 / -1; /* Makes the error message stretch across the whole grid */
+    text-align: center;
+    color: #e74c3c;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    color: #777;
+    font-size: 0.8em;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
