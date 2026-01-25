@@ -1,95 +1,42 @@
 // script.js
 
-// This variable (our "shelf") will hold all the book objects (our "books")
-// Using the 'const' keyword means this variable cannot be changed later.
-// script.js
+// script.js - CONNECTED TO SUPABASE
 
-// This variable (our "shelf") will hold all the book objects (our "books")
-// script.js
+// 1. CONFIGURATION: Connect to your Supabase Project
+// COPY THESE FROM YOUR SUPABASE DASHBOARD -> SETTINGS -> API
+const supabaseUrl = 'https://cefurgzwpgvezsdrchcp.supabase.co'; 
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlZnVyZ3p3cGd2ZXpzZHJjaGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjM3OTIsImV4cCI6MjA4MzMzOTc5Mn0.hsgX17Z5p28zTqOVg0cmQ_CKp_jZdKQnP0KaMGE44dM';
 
-const bookCatalogue = [
-    {
-        name: "Loki: A Bad God's Guide to Being Good",
-        author: "Louie Stowell",
-        isbn: "9781406399752",
-        genre: "Comedy / Fantasy",
-        readingAge: "8 - 12",
-        blurb: "After one trick too many, Loki is banished to live on Earth as a 'normal' school boy.",
-        status: "Read",
-        rank: 9,
-        image: "images/loki1.jpg" // <--- Make sure your file is named this!
-    },
-    {
-        name: "Loki: A Bad God's Guide to Taking the Blame",
-        author: "Louie Stowell",
-        isbn: "9781529501223",
-        genre: "Comedy / Fantasy",
-        readingAge: "8 - 12",
-        blurb: "Odin gives Loki a second chance, but when Thor’s hammer goes missing, everyone blames Loki.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki2.jpg"
-    },
-    {
-        name: "Loki: A Bad God's Guide to Ruling the World",
-        author: "Louie Stowell",
-        isbn: "9781529501230", 
-        genre: "Comedy / Fantasy",
-        readingAge: "8 - 12",
-        blurb: "Loki and Thor are sent to a new school where they must endure annoyingly perfect students.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki3.jpg"
-    },
-    {
-        name: "Loki: A Bad God's Guide to Making Enemies",
-        author: "Louie Stowell",
-        isbn: "9781529515800",
-        genre: "Comedy / Fantasy",
-        readingAge: "8 - 12",
-        blurb: "Loki has to make friends to save the world. Unfortunately, he is much better at making enemies.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki4.jpg"
-    },
-    {
-        name: "Loki: A Bad God's Guide to Causing Chaos",
-        author: "Louie Stowell",
-        isbn: "9781529515817",
-        genre: "Comedy / Fantasy",
-        readingAge: "8 - 12",
-        blurb: "Loki must sort out the chaos that erupts after the goddess Freyja arrives in town.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki5.jpg"
-    },
-    {
-        name: "Loki: Tales of a Bad God (WBD)",
-        author: "Louie Stowell",
-        isbn: "9781529519723",
-        genre: "Short Stories",
-        readingAge: "8 - 12",
-        blurb: "A collection of thrilling tales starring Loki, including a story about Thor almost marrying a giant.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki_wbd.jpg"
-    },
-    {
-        name: "Loki: A Bad God's Guide to Unruly Activities",
-        author: "Louie Stowell",
-        isbn: "9781529515787",
-        genre: "Activity Book",
-        readingAge: "8 - 12",
-        blurb: "Tricks, pranks, puzzles, and games from the Norse god of mischief.",
-        status: "Read",
-        rank: 10,
-        image: "images/loki_activity.jpg"
+// Initialize the client (The connection manager)
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// We still need this "shelf" variable, but it starts empty now!
+let bookCatalogue = [];
+
+// 2. THE NEW FUNCTION: Fetch data from the Cloud
+async function fetchBooks() {
+    const container = document.getElementById('catalogue-container');
+    container.innerHTML = '<h2>Loading Books from the Cloud...</h2>';
+
+    // Ask Supabase for ALL rows in the 'books' table
+    // .select('*') means "Select All Columns"
+    const { data, error } = await supabase
+        .from('books')
+        .select('*');
+
+    if (error) {
+        console.error("Error fetching books:", error);
+        container.innerHTML = '<p class="error">Something went wrong loading the books.</p>';
+    } else {
+        // Success! Save the data to our local shelf
+        bookCatalogue = data;
+        
+        // Update the screen
+        renderBooks(bookCatalogue);
     }
-];
+}
 
-// ... The rest of your code (renderBooks, event listeners) stays exactly the same!
-
-
+// 3. THE RENDER FUNCTION (Displaying the books)
 function renderBooks(booksToDisplay) {
     const container = document.getElementById('catalogue-container');
     container.innerHTML = ''; 
@@ -98,18 +45,18 @@ function renderBooks(booksToDisplay) {
         container.innerHTML = `<p class="no-results">Sorry, no books found matching that search!</p>`;
     } else {
         booksToDisplay.forEach(book => {
-            // We create a special style specifically for this card's background
-            // The "linear-gradient" part creates a see-through white layer (0.85 opacity) on top of the image
-            const backgroundStyle = `background-image: linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('${book.image}');`;
+            // Note: We use book.cover_url now (matching your database column)
+            // If cover_url is empty, we fall back to a grey gradient so it doesn't break
+            const imageUrl = book.cover_url || '';
+            const backgroundStyle = `background-image: linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('${imageUrl}');`;
             
             const bookHTML = `
                 <div class="book-card" style="${backgroundStyle}">
-                    <h3>${book.name}</h3>
+                    <h3>${book.title}</h3> 
                     <p><strong>Author:</strong> ${book.author}</p>
-                    <p><strong>Genre:</strong> ${book.genre}</p>
-                    <p><strong>Reading Age:</strong> ${book.readingAge}</p>
-                    <p class="status-${book.status.toLowerCase()}">Status: ${book.status}</p>
-                    <p><strong>Your Rank:</strong> ${book.rank} / 10</p>
+                    <p><strong>Format:</strong> ${book.format}</p>
+                    <p class="status-${book.status ? book.status.toLowerCase() : 'unread'}">Status: ${book.status}</p>
+                    <p><strong>Rating:</strong> ${book.rating} / 10</p>
                     <p class="book-blurb">${book.blurb}</p>
                 </div>
             `;
@@ -118,37 +65,25 @@ function renderBooks(booksToDisplay) {
     }
 }
 
-
-// Show all books when the page first loads
-renderBooks(bookCatalogue);
-
-// The "Ear": Find the Search & Reset buttons and the input box
+// 4. EVENT LISTENERS (Search Button)
 const searchBtn = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const resetBtn = document.getElementById('reset-button');
 
-// The next parts only run after clicking the search or reset button
-
-// Tell the Search button to listen for a 'click'
 searchBtn.addEventListener('click', () => {
-    // Get the word the user typed and make it lowercase (so 'Loki' and 'loki' both work!)
     const searchTerm = searchInput.value.toLowerCase();
-
-    // 4. The "Filter": Create a new list of only the matching books
     const filteredBooks = bookCatalogue.filter(book => {
-        return book.name.toLowerCase().includes(searchTerm) || 
+        return book.title.toLowerCase().includes(searchTerm) || 
                book.author.toLowerCase().includes(searchTerm);
     });
-
-    // 5. Use our recipe to show only the filtered books!
     renderBooks(filteredBooks);
 });
 
-// Tell the Reset button to listen for a 'click'
 resetBtn.addEventListener('click', () => {
-    // 1. Clear the text in the search box
     searchInput.value = '';
-
-    // 2. Show the full original catalogue
     renderBooks(bookCatalogue);
 });
+
+// 5. START THE ENGINE
+// Instead of just rendering immediately, we now FETCH first.
+fetchBooks();
