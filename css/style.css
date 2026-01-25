@@ -115,3 +115,27 @@ footer {
     border-top: 1px solid #ddd;
     margin-top: 20px;
 }
+
+/* --- MOBILE FIXES --- */
+@media (max-width: 600px) {
+    
+    /* 1. Stack the Search area vertically */
+    #search-area {
+        flex-direction: column;
+        gap: 10px; /* Space between the input and the buttons */
+    }
+
+    /* 2. Make the input bar full width and stop the zoom */
+    #search-input {
+        width: 100%;
+        font-size: 16px; /* Prevents iPhone auto-zoom */
+        padding: 12px;
+    }
+
+    /* 3. Make buttons big and easy to tap */
+    #search-button, #reset-button {
+        width: 100%;       /* Full width buttons */
+        padding: 12px;
+        margin: 5px 0;     /* Add a little space between the two buttons */
+    }
+}
