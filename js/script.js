@@ -8,7 +8,7 @@ const supabaseUrl = 'https://cefurgzwpgvezsdrchcp.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlZnVyZ3p3cGd2ZXpzZHJjaGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjM3OTIsImV4cCI6MjA4MzMzOTc5Mn0.hsgX17Z5p28zTqOVg0cmQ_CKp_jZdKQnP0KaMGE44dM';
 
 // Initialize the client (The connection manager)
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // We still need this "shelf" variable, but it starts empty now!
 let bookCatalogue = [];
@@ -20,7 +20,7 @@ async function fetchBooks() {
 
     // Ask Supabase for ALL rows in the 'books' table
     // .select('*') means "Select All Columns"
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('books')
         .select('*');
 
